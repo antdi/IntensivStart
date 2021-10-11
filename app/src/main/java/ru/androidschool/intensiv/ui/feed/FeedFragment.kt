@@ -42,70 +42,29 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
             if (it.toString().length > 3) {
                 openSearch(it.toString())
             }
-            }
+        }
         movies_recycler_view.adapter = adapter.apply {
             addAll(
                 listOf(
                     MainCardContainer(
                         title = R.string.main_title,
-                        items = MockRepository.getMovies().map { it-> MovieItem(it,{}) }.toList()
+                        items = MockRepository.getMovies().map { it -> MovieItem(it, {}) }.toList()
                     ),
                     MainCardContainer(
                         title = R.string.main_title,
-                        items = MockRepository.getMovies().map { it-> MovieItem(it,{}) }.toList()
+                        items = MockRepository.getMovies().map { it -> MovieItem(it, {}) }.toList()
                     ),
                     MainCardContainer(
                         title = R.string.main_title,
-                        items = MockRepository.getMovies().map { it-> MovieItem(it,{}) }.toList()
+                        items = MockRepository.getMovies().map { it -> MovieItem(it, {}) }.toList()
                     )
                 )
             )
         }
 
 
-        }
-
-/*
-        search_toolbar.search_edit_text.afterTextChanged {
-            Timber.d(it.toString())
-            if (it.toString().length > MIN_LENGTH) {
-                openSearch(it.toString())
-            }
-        }
-
-
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        val moviesList = listOf(
-            MainCardContainer(
-                R.string.recommended,
-                MockRepository.getMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(
-                            movie
-                        )
-                    }
-                }.toList()
-            )
-        )
-
-        movies_recycler_view.adapter = adapter.apply { addAll(moviesList) }
-
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        // Чтобы отобразить второй ряд фильмов
-        val newMoviesList = listOf(
-            MainCardContainer(
-                R.string.upcoming,
-                MockRepository.getMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(movie)
-                    }
-                }.toList()
-            )
-        )
-
-        adapter.apply { addAll(newMoviesList) }
     }
-*/
+
     private fun openMovieDetails(movie: Movie) {
         val bundle = Bundle()
         bundle.putString(KEY_TITLE, movie.title)
