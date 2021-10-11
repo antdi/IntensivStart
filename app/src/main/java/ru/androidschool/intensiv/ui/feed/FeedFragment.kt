@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import kotlinx.android.synthetic.main.feed_fragment.*
@@ -33,44 +34,35 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //начало
+        movies_recycler_view.layoutManager = LinearLayoutManager(context)
+        movies_recycler_view.adapter = adapter.apply { addAll(listOf()) }
         search_toolbar.search_edit_text.afterTextChanged {
             Timber.d(it.toString())
-            if (it.toString().length > MIN_LENGTH) {
+            if (it.toString().length > 3) {
                 openSearch(it.toString())
             }
         }
-
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        val moviesList = listOf(
-            MainCardContainer(
-                R.string.recommended,
-                MockRepository.getMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(
-                            movie
-                        )
-                    }
-                }.toList()
+        movies_recycler_view.adapter = adapter.apply {
+            addAll(
+                listOf(
+                    MainCardContainer(
+                        title = R.string.main_title,
+                        items = MockRepository.getMovies().map { it -> MovieItem(it, {}) }.toList()
+                    ),
+                    MainCardContainer(
+                        title = R.string.main_title,
+                        items = MockRepository.getMovies().map { it -> MovieItem(it, {}) }.toList()
+                    ),
+                    MainCardContainer(
+                        title = R.string.main_title,
+                        items = MockRepository.getMovies().map { it -> MovieItem(it, {}) }.toList()
+                    )
+                )
             )
-        )
+        }
 
-        movies_recycler_view.adapter = adapter.apply { addAll(moviesList) }
 
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        // Чтобы отобразить второй ряд фильмов
-        val newMoviesList = listOf(
-            MainCardContainer(
-                R.string.upcoming,
-                MockRepository.getMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(movie)
-                    }
-                }.toList()
-            )
-        )
-
-        adapter.apply { addAll(newMoviesList) }
     }
 
     private fun openMovieDetails(movie: Movie) {

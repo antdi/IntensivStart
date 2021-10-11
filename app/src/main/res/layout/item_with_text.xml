@@ -42,6 +42,6 @@
         android:isIndicator="true"
         android:numStars="5"
         android:progressBackgroundTint="@color/colorControlNormal"
-        android:stepSize="0.5"
+        android:stepSize="0.9"
         tools:rating="5" />
 </LinearLayout>
